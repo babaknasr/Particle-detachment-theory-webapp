@@ -50,15 +50,18 @@ def compute_usc(E1, E2, Wa, Deltac):
     Result = eng.theory_calculation(theory,nargout=4)
 
     # plotting
+    line_type = ['solid', 'dashed', 'dotted', 'dotdash', 'dashdot']
+
     TOOLS = "pan,wheel_zoom,box_zoom,reset,save,box_select,lasso_select,hover"
     p = plt.figure(title='Particle Detachment models', tools=TOOLS,
                x_axis_type='log', y_axis_type='log',
                x_axis_label='Particle diameter (\u03BCm)', y_axis_label='Critical shear velocity (m/s)')
 
     for i in range(len(Result[2])):
+        print('i=',i)
         x = Result[0][0]
         y = Result[1][i]
-        p.line(x, y, legend=Result[2][i]+', '+Result[3][i], line_width=i*1.5)
+        p.line(x, y, legend=Result[2][i]+', '+Result[3][i], line_width=2, line_dash=line_type[i])
         p.select(dict(type=HoverTool)).tooltips = {'x':'$x', 'y':'$y'}
         p.legend.click_policy='hide'
 
