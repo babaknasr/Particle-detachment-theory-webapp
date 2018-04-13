@@ -5,7 +5,7 @@
 from math import *
 from numpy import exp, cos, linspace
 import bokeh.plotting as plt
-from bokeh.models import HoverTool
+from bokeh.models import HoverTool, Legend
 # import os, re
 import matlab.engine
 
@@ -80,16 +80,24 @@ def plot_bokeh(Result):
     line_type = ['solid', 'dashed', 'dotted', 'dotdash', 'dashdot']
 
     TOOLS = "pan,wheel_zoom,box_zoom,reset,save,box_select,lasso_select,hover"
-    p = plt.figure(title='Particle Detachment models', tools=TOOLS,
-               x_axis_type='log', y_axis_type='log',
-               x_axis_label='Particle diameter (\u03BCm)', y_axis_label='Critical shear velocity (m/s)')
+    p = plt.figure(tools=TOOLS, toolbar_location='above', plot_width=1000,
+                title='Particle Detachment models',
+                x_axis_type='log', y_axis_type='log',
+                x_axis_label='Particle diameter (\u03BCm)', 
+                y_axis_label='Critical shear velocity (m/s)')
 
+    legend_theory = []
     for i in range(len(Result[2])):
         print('i=',i)
         x = Result[0][0]
         y = Result[1][i]
-        p.line(x, y, legend=Result[2][i]+', '+Result[3][i], line_width=2, line_dash=line_type[i])
+        # c = p.line(x, y, legend=Result[2][i]+', '+Result[3][i], line_width=2, line_dash=line_type[i])
+        c = p.line(x, y, line_width=2, line_dash=line_type[i])
         p.select(dict(type=HoverTool)).tooltips = {'x':'$x', 'y':'$y'}
-        p.legend.click_policy='hide'
+        legend_theory.append((Result[2][i]+', '+Result[3][i], [c]))
+
+    leg1 = Legend(items=legend_theory, location=(1,0))
+    leg1.click_policy='hide'
+    p.add_layout(leg1,'right')
 
     return p
