@@ -36,7 +36,15 @@ Enter the Material properties for particle and substrate
     </tr>
   {% endfor %}
 </table>
-<p><input type="submit" value="Evaluate"></form></p>
+<p><input type="submit" value="Evaluate" onclick="my_button_click_handler()"></form></p>
+
+<!-- Adding a waiting notice onclick before get back from the POST -->
+<p id="wait"></p>
+<script>
+function my_button_click_handler() {
+	document.getElementById("wait").innerHTML = "Computing...Please Waiting!";
+}
+</script>
 
 <p>
 {% if result != None %}
