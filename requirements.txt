@@ -1,0 +1,5 @@
+Flask==1.0.2
+WTForms==2.2.1
+bokeh==1.0.2
+numpy==1.15.4
+matlab==0.1
